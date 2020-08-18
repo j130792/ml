@@ -40,10 +40,11 @@ def RemoveBoringDay():
     #Locate 'boring days' and add indexes to list for deletion
     DeletionIndex = []
     for day in range(NumDays):
-        LocalVisobs = Visobs[day*24:day*24+24]
+        LocalVisobs = Visobs[day*hrs:day*hrs+hrs]
         if min(LocalVisobs)>5000:
-            DeletionIndex.append(np.arange(24*day,24*day+24))
-
+            DeletionIndex.append(np.arange(hrs*day,hrs*day+hrs))
+            
+            
     #Remove entries primed for deletion
     PrunedVisobs = np.delete(Visobs,DeletionIndex)
     PrunedVismodel = PruneModel(Vismodel,DeletionIndex)
