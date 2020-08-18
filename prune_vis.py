@@ -44,7 +44,6 @@ def RemoveBoringDay():
         if min(LocalVisobs)>5000:
             DeletionIndex.append(np.arange(hrs*day,hrs*day+hrs))
             
-            
     #Remove entries primed for deletion
     PrunedVisobs = np.delete(Visobs,DeletionIndex)
     PrunedVismodel = PruneModel(Vismodel,DeletionIndex)
@@ -66,6 +65,43 @@ def RemoveBoringDay():
     return -1
 
 
+#Function takes a period of specified length and replaces it with one instance
+#of maximal visability
+def RemoveBoringPeriod(bp=2):
+    #Check user input is sensible
+    if bp<2:
+        raise ValueError('bp must be two or greater for the algorithm to make sense')
+    if bp!=int(bp):
+        raise ValueError('bp must be an integer')
+
+    #Run algorithm marking indices for deletion
+    VisLength = np.size(Visobs)
+    DeletionIndex = []
+    for i in range(VisLength-bp+1):
+        LocalVisobs = Visobs[i:i+bp]
+        if min(LocalVisobs)>=5000:
+            DeletionIndex.append(np.arange(i+1,i+bp)) #Don't mark first entry for deletion
+
+    #Remove entries primed for deletion
+    #(indexes may be marked for deletion multiple times but can only be deleted once)
+    PrunedVisobs = np.delete(Visobs,DeletionIndex)
+    PrunedVismodel = PruneModel(Vismodel,DeletionIndex)
+    PrunedTobs = np.delete(Tobs,DeletionIndex)
+    PrunedTmodel = PruneModel(Tmodel,DeletionIndex)
+    PrunedTdobs = np.delete(Tdobs,DeletionIndex)
+    PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
+
+    #Save data
+    np.save('data/VisobsP%s.npy' % bp, PrunedVisobs)
+    np.save('data/VismodelP%s.npy' % bp, PrunedVismodel)
+    np.save('data/TobsP%s.npy' % bp, PrunedTobs)
+    np.save('data/TmodelP%s.npy' % bp, PrunedTmodel)
+    np.save('data/TdobsP%s.npy' % bp, PrunedTdobs)
+    np.save('data/TdmodelP%s.npy' % bp, PrunedTdmodel)
+    
+    print(PrunedVisobs)
+                    
+
 
 if __name__=="__main__":
-    RemoveBoringDay()
+    RemoveBoringPeriod(2)
