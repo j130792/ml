@@ -1,16 +1,15 @@
 ### Script to prune uninteresting data from the visability data set
 # Data reduction will be driven strictly by observed data
 
-import sys
 import numpy as np
 import warnings
-np.set_printoptions(threshold=sys.maxsize)
+from sys import maxsize
 
 if 1/2==0:
     warnings.warn('Script may not be compatible with Python 2',
                   DeprecationWarning)
 
-#Load data
+#Load data globally
 Visobs = np.load('data/Visobs.npy')
 Vismodel = np.load('data/Vismodel.npy')
 Tobs = np.load('data/Tobs.npy')
@@ -31,17 +30,21 @@ def PruneModel(dat,DeletionIndex):
     return PrunedDat
     
 
-def RemoveBoringDay():
-
-    hrs = 24
-    DayVisobs = np.zeros((hrs,)) #because 24 hours in a day
-    print(DayVisobs.shape)
+def RemoveBoringDay(hrs=24):
+    #Check user input is sensible
+    if hrs<1 or hrs!=int(hrs):
+        raise ValueError('Number of hrs must be a positive integer')
+    elif hrs==1:
+        warnings.warn('If hrs=1 then every class 7 data point will be removed, to proceed press return')
+        input()
+        
+    DayVisobs = np.zeros((hrs,)) #We define a day to be hrs hours, by default 24 hours
     NumDays = int(np.size(Visobs)/hrs)
     #Locate 'boring days' and add indexes to list for deletion
     DeletionIndex = []
     for day in range(NumDays):
         LocalVisobs = Visobs[day*hrs:day*hrs+hrs]
-        if min(LocalVisobs)>5000:
+        if min(LocalVisobs)>=5000:
             DeletionIndex.append(np.arange(hrs*day,hrs*day+hrs))
             
     #Remove entries primed for deletion
@@ -52,17 +55,14 @@ def RemoveBoringDay():
     PrunedTdobs = np.delete(Tdobs,DeletionIndex)
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
-    np.save('data/Visobs24.npy',PrunedVisobs)
-    np.save('data/Vismodel24.npy',PrunedVismodel)
-    np.save('data/Tobs24.npy',PrunedTobs)
-    np.save('data/Tmodel24.npy',PrunedTmodel)
-    np.save('data/Tdobs24.npy',PrunedTdobs)
-    np.save('data/Tdmodel24.npy',PrunedTdmodel)
+    np.save('data/VisobsH%s.npy' % hrs, PrunedVisobs)
+    np.save('data/VismodelH%s.npy' % hrs, PrunedVismodel)
+    np.save('data/TobsH%s.npy' % hrs, PrunedTobs)
+    np.save('data/TmodelH%s.npy' % hrs, PrunedTmodel)
+    np.save('data/TdobsH%s.npy' % hrs, PrunedTdobs)
+    np.save('data/TdmodelH%s.npy' %hrs, PrunedTdmodel)
 
-    print(PrunedVisobs)
-    
-
-    return -1
+    return PrunedVisobs
 
 
 #Function takes a period of specified length and replaces it with one instance
@@ -99,9 +99,15 @@ def RemoveBoringPeriod(bp=2):
     np.save('data/TdobsP%s.npy' % bp, PrunedTdobs)
     np.save('data/TdmodelP%s.npy' % bp, PrunedTdmodel)
     
-    print(PrunedVisobs)
+    return PrunedVisobs
                     
 
 
 if __name__=="__main__":
-    RemoveBoringPeriod(2)
+    np.set_printoptions(threshold=maxsize) #Allows us to print entire array
+    
+    out = RemoveBoringDay(24)
+    #print(out)
+    
+    out = RemoveBoringPeriod(2)
+    # print(out)
