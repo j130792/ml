@@ -113,6 +113,35 @@ def RemoveBoringPeriod(bp=2):
     
     return PrunedVisobs
 
+def RemoveMaxVisibilty():
+    bp = 2
+    #Run algorithm marking indices for deletion
+    VisLength = np.size(Visobs)
+    DeletionIndex = []
+    for i in range(VisLength-bp+1):
+        LocalVisobs = Visobs[i:i+bp]
+        if min(LocalVisobs)>=9999:
+            DeletionIndex.append(np.arange(i+1,i+bp)) #Don't mark first entry for deletion
+
+    #Remove entries primed for deletion
+    #(indexes may be marked for deletion multiple times but can only be deleted once)
+    PrunedVisobs = np.delete(Visobs,DeletionIndex)
+    PrunedTobs = np.delete(Tobs,DeletionIndex)
+    PrunedTmodel = PruneModel(Tmodel,DeletionIndex)
+    PrunedTdobs = np.delete(Tdobs,DeletionIndex)
+    PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
+
+    #Save data
+    np.save('data/VisobsFullNoMax.npy', PrunedVisobs)
+    np.save('data/TobsFullNoMax.npy', PrunedTobs)
+    np.save('data/TmodelFullNoMax.npy', PrunedTmodel)
+    np.save('data/TdobsFullNoMax.npy', PrunedTdobs)
+    np.save('data/TdmodelFullNoMax.npy', PrunedTdmodel)
+    
+    return PrunedVisobs
+
+
+
 #A function which converts a visability into a class
 def ClassConverter(vis):
     if vis>=5000:
@@ -225,11 +254,14 @@ def RemoveBoringClasses(jump=0):
 if __name__=="__main__":
     np.set_printoptions(threshold=maxsize) #Allows us to print entire array
     
-    out = RemoveBoringDay(24)
-    #print(out)
+    # out = RemoveBoringDay(24)
+    # #print(out)
     
-    out = RemoveBoringPeriod(2)
-    # print(out)
+    # out = RemoveBoringPeriod(2)
+    # # print(out)
 
-    out = RemoveBoringClasses(1)
-    # print(out)
+    # out = RemoveBoringClasses(1)
+    # # print(out)
+
+    out = RemoveMaxVisibilty()
+    print(out)
