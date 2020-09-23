@@ -43,6 +43,9 @@ def PruneModel(dat,DeletionIndex):
     PrunedDat = np.array([PrunedDat0,PrunedDat1,
                           PrunedDat2,PrunedDat3])
 
+    #Recover original ordering
+    PrunedDat = np.swapaxes(PrunedDat,0,1)
+
     return PrunedDat
     
 
@@ -254,14 +257,14 @@ def RemoveBoringClasses(jump=0):
 if __name__=="__main__":
     np.set_printoptions(threshold=maxsize) #Allows us to print entire array
     
-    # out = RemoveBoringDay(24)
-    # #print(out)
+    out = RemoveBoringDay(24)
+    #print(out)
     
-    # out = RemoveBoringPeriod(2)
-    # # print(out)
+    out = RemoveBoringPeriod(2)
+    # print(out)
 
-    # out = RemoveBoringClasses(1)
-    # # print(out)
-
+    out = RemoveBoringClasses(1)
+    # print(out)
+    
     out = RemoveMaxVisibilty()
     print(out)

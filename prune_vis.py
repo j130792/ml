@@ -26,6 +26,9 @@ def PruneModel(dat,DeletionIndex):
 
     PrunedDat = np.array([PrunedDat0,PrunedDat1,
                           PrunedDat2,PrunedDat3])
+
+    #Recover original ordering
+    PrunedDat = np.swapaxes(PrunedDat,0,1)
     
     return PrunedDat
     
