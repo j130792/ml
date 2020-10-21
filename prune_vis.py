@@ -1,6 +1,7 @@
 ### Script to prune uninteresting data from the visability data set
 # Data reduction will be driven strictly by observed data
 
+import setup
 import numpy as np
 import warnings
 from sys import maxsize
@@ -58,12 +59,12 @@ def RemoveBoringDay(hrs=24):
     PrunedTdobs = np.delete(Tdobs,DeletionIndex)
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
-    np.save('data/VisobsH%s.npy' % hrs, PrunedVisobs)
-    np.save('data/VismodelH%s.npy' % hrs, PrunedVismodel)
-    np.save('data/TobsH%s.npy' % hrs, PrunedTobs)
-    np.save('data/TmodelH%s.npy' % hrs, PrunedTmodel)
-    np.save('data/TdobsH%s.npy' % hrs, PrunedTdobs)
-    np.save('data/TdmodelH%s.npy' %hrs, PrunedTdmodel)
+    np.save('output/VisobsH%s.npy' % hrs, PrunedVisobs)
+    np.save('output/VismodelH%s.npy' % hrs, PrunedVismodel)
+    np.save('output/TobsH%s.npy' % hrs, PrunedTobs)
+    np.save('output/TmodelH%s.npy' % hrs, PrunedTmodel)
+    np.save('output/TdobsH%s.npy' % hrs, PrunedTdobs)
+    np.save('output/TdmodelH%s.npy' %hrs, PrunedTdmodel)
 
     return PrunedVisobs
 
@@ -95,12 +96,12 @@ def RemoveBoringPeriod(bp=2):
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
     #Save data
-    np.save('data/VisobsP%s.npy' % bp, PrunedVisobs)
-    np.save('data/VismodelP%s.npy' % bp, PrunedVismodel)
-    np.save('data/TobsP%s.npy' % bp, PrunedTobs)
-    np.save('data/TmodelP%s.npy' % bp, PrunedTmodel)
-    np.save('data/TdobsP%s.npy' % bp, PrunedTdobs)
-    np.save('data/TdmodelP%s.npy' % bp, PrunedTdmodel)
+    np.save('output/VisobsP%s.npy' % bp, PrunedVisobs)
+    np.save('output/VismodelP%s.npy' % bp, PrunedVismodel)
+    np.save('output/TobsP%s.npy' % bp, PrunedTobs)
+    np.save('output/TmodelP%s.npy' % bp, PrunedTmodel)
+    np.save('output/TdobsP%s.npy' % bp, PrunedTdobs)
+    np.save('output/TdmodelP%s.npy' % bp, PrunedTdmodel)
     
     return PrunedVisobs
                     

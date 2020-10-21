@@ -8,5 +8,5 @@
 *#
 firedrake.json
 tmp/*
-data/*
+output/*
 .*

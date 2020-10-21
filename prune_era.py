@@ -1,6 +1,7 @@
 ### Script to prune uninteresting data from the visability data set
 # Data reduction will be driven strictly by observed data
 
+import setup
 import numpy as np
 import warnings
 from sys import maxsize
@@ -73,11 +74,11 @@ def RemoveBoringDay(hrs=24):
     PrunedTdobs = np.delete(Tdobs,DeletionIndex)
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
-    np.save('data/VisobsFullH%s.npy' % hrs, PrunedVisobs)
-    np.save('data/TobsFullH%s.npy' % hrs, PrunedTobs)
-    np.save('data/TmodelFullH%s.npy' % hrs, PrunedTmodel)
-    np.save('data/TdobsFullH%s.npy' % hrs, PrunedTdobs)
-    np.save('data/TdmodelFullH%s.npy' %hrs, PrunedTdmodel)
+    np.save('output/VisobsFullH%s.npy' % hrs, PrunedVisobs)
+    np.save('output/TobsFullH%s.npy' % hrs, PrunedTobs)
+    np.save('output/TmodelFullH%s.npy' % hrs, PrunedTmodel)
+    np.save('output/TdobsFullH%s.npy' % hrs, PrunedTdobs)
+    np.save('output/TdmodelFullH%s.npy' %hrs, PrunedTdmodel)
 
     return PrunedVisobs
 
@@ -108,11 +109,11 @@ def RemoveBoringPeriod(bp=2):
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
     #Save data
-    np.save('data/VisobsFullP%s.npy' % bp, PrunedVisobs)
-    np.save('data/TobsFullP%s.npy' % bp, PrunedTobs)
-    np.save('data/TmodelFullP%s.npy' % bp, PrunedTmodel)
-    np.save('data/TdobsFullP%s.npy' % bp, PrunedTdobs)
-    np.save('data/TdmodelFullP%s.npy' % bp, PrunedTdmodel)
+    np.save('output/VisobsFullP%s.npy' % bp, PrunedVisobs)
+    np.save('output/TobsFullP%s.npy' % bp, PrunedTobs)
+    np.save('output/TmodelFullP%s.npy' % bp, PrunedTmodel)
+    np.save('output/TdobsFullP%s.npy' % bp, PrunedTdobs)
+    np.save('output/TdmodelFullP%s.npy' % bp, PrunedTdmodel)
     
     return PrunedVisobs
 
@@ -135,11 +136,11 @@ def RemoveMaxVisibilty():
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
     #Save data
-    np.save('data/VisobsFullNoMax.npy', PrunedVisobs)
-    np.save('data/TobsFullNoMax.npy', PrunedTobs)
-    np.save('data/TmodelFullNoMax.npy', PrunedTmodel)
-    np.save('data/TdobsFullNoMax.npy', PrunedTdobs)
-    np.save('data/TdmodelFullNoMax.npy', PrunedTdmodel)
+    np.save('output/VisobsFullNoMax.npy', PrunedVisobs)
+    np.save('output/TobsFullNoMax.npy', PrunedTobs)
+    np.save('output/TmodelFullNoMax.npy', PrunedTmodel)
+    np.save('output/TdobsFullNoMax.npy', PrunedTdobs)
+    np.save('output/TdmodelFullNoMax.npy', PrunedTdmodel)
     
     return PrunedVisobs
 
@@ -246,11 +247,11 @@ def RemoveBoringClasses(jump=0):
     PrunedTdmodel = PruneModel(Tdmodel,DeletionIndex)
 
     #Save data
-    np.save('data/VisobsFullC%s.npy' % bp, PrunedVisobs)
-    np.save('data/TobsFullC%s.npy' % bp, PrunedTobs)
-    np.save('data/TmodelFullC%s.npy' % bp, PrunedTmodel)
-    np.save('data/TdobsFullC%s.npy' % bp, PrunedTdobs)
-    np.save('data/TdmodelFullC%s.npy' % bp, PrunedTdmodel)
+    np.save('output/VisobsFullC%s.npy' % bp, PrunedVisobs)
+    np.save('output/TobsFullC%s.npy' % bp, PrunedTobs)
+    np.save('output/TmodelFullC%s.npy' % bp, PrunedTmodel)
+    np.save('output/TdobsFullC%s.npy' % bp, PrunedTdobs)
+    np.save('output/TdmodelFullC%s.npy' % bp, PrunedTdmodel)
 
     return PrunedVisobs
 

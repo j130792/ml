@@ -1,6 +1,7 @@
 ### Script to prune uninteresting data from the visability data set
 # Data reduction will be driven strictly by observed data
 
+import setup
 import numpy as np
 import warnings
 from sys import maxsize
@@ -82,14 +83,14 @@ def RemoveBoringDay(hrs=24):
     PrunedUmodel = PruneModel(model_data_u,DeletionIndex)
     PrunedVmodel = PruneModel(model_data_v,DeletionIndex)
 
-    np.save('data/VisobsAddH%s.npy' % hrs, PrunedVisobs)
-    np.save('data/TobsAddH%s.npy' % hrs, PrunedTobs)
-    np.save('data/TdobsAddH%s.npy' % hrs, PrunedTdobs)
-    np.save('data/TmodelAddH%s.npy' % hrs, PrunedTmodel)
-    np.save('data/TdmodelAddH%s.npy' %hrs, PrunedTdmodel)
-    np.save('data/PmodelAddH%s.npy' % hrs, PrunedPmodel)
-    np.save('data/UmodelAddH%s.npy' %hrs, PrunedUmodel)
-    np.save('data/VmodelAddH%s.npy' %hrs, PrunedVmodel)
+    np.save('output/VisobsAddH%s.npy' % hrs, PrunedVisobs)
+    np.save('output/TobsAddH%s.npy' % hrs, PrunedTobs)
+    np.save('output/TdobsAddH%s.npy' % hrs, PrunedTdobs)
+    np.save('output/TmodelAddH%s.npy' % hrs, PrunedTmodel)
+    np.save('output/TdmodelAddH%s.npy' %hrs, PrunedTdmodel)
+    np.save('output/PmodelAddH%s.npy' % hrs, PrunedPmodel)
+    np.save('output/UmodelAddH%s.npy' %hrs, PrunedUmodel)
+    np.save('output/VmodelAddH%s.npy' %hrs, PrunedVmodel)
 
     return PrunedVisobs
 
@@ -123,14 +124,14 @@ def RemoveBoringPeriod(bp=2):
     PrunedVmodel = PruneModel(model_data_v,DeletionIndex)
 
     #Save data
-    np.save('data/VisobsAddP%s.npy' % bp, PrunedVisobs)
-    np.save('data/TobsAddP%s.npy' % bp, PrunedTobs)
-    np.save('data/TdobsAddP%s.npy' % bp, PrunedTdobs)
-    np.save('data/TmodelAddP%s.npy' % bp, PrunedTmodel)
-    np.save('data/TdmodelAddP%s.npy' %bp, PrunedTdmodel)
-    np.save('data/PmodelAddP%s.npy' % bp, PrunedPmodel)
-    np.save('data/UmodelAddP%s.npy' %bp, PrunedUmodel)
-    np.save('data/VmodelAddP%s.npy' %bp, PrunedVmodel)
+    np.save('output/VisobsAddP%s.npy' % bp, PrunedVisobs)
+    np.save('output/TobsAddP%s.npy' % bp, PrunedTobs)
+    np.save('output/TdobsAddP%s.npy' % bp, PrunedTdobs)
+    np.save('output/TmodelAddP%s.npy' % bp, PrunedTmodel)
+    np.save('output/TdmodelAddP%s.npy' %bp, PrunedTdmodel)
+    np.save('output/PmodelAddP%s.npy' % bp, PrunedPmodel)
+    np.save('output/UmodelAddP%s.npy' %bp, PrunedUmodel)
+    np.save('output/VmodelAddP%s.npy' %bp, PrunedVmodel)
     
     return PrunedVisobs
 
@@ -156,14 +157,14 @@ def RemoveMaxVisibilty():
     PrunedVmodel = PruneModel(model_data_v,DeletionIndex)
 
     #save data
-    np.save('data/VisobsAddNoMax.npy', PrunedVisobs)
-    np.save('data/TobsAddNoMax.npy', PrunedTobs)
-    np.save('data/TdobsAddNoMax.npy' , PrunedTdobs)
-    np.save('data/TmodelAddNoMax.npy' , PrunedTmodel)
-    np.save('data/TdmodelAddNoMax.npy', PrunedTdmodel)
-    np.save('data/PmodelAddNoMax.npy' , PrunedPmodel)
-    np.save('data/UmodelAddNoMax.npy', PrunedUmodel)
-    np.save('data/VmodelAddNoMax.npy', PrunedVmodel)
+    np.save('output/VisobsAddNoMax.npy', PrunedVisobs)
+    np.save('output/TobsAddNoMax.npy', PrunedTobs)
+    np.save('output/TdobsAddNoMax.npy' , PrunedTdobs)
+    np.save('output/TmodelAddNoMax.npy' , PrunedTmodel)
+    np.save('output/TdmodelAddNoMax.npy', PrunedTdmodel)
+    np.save('output/PmodelAddNoMax.npy' , PrunedPmodel)
+    np.save('output/UmodelAddNoMax.npy', PrunedUmodel)
+    np.save('output/VmodelAddNoMax.npy', PrunedVmodel)
     
     return PrunedVisobs
 
@@ -273,14 +274,14 @@ def RemoveBoringClasses(jump=0):
     PrunedVmodel = PruneModel(model_data_v,DeletionIndex)
 
     #Save data
-    np.save('data/VisobsAddC%s.npy' % bp, PrunedVisobs)
-    np.save('data/TobsAddC%s.npy' % bp, PrunedTobs)
-    np.save('data/TdobsAddC%s.npy' % bp, PrunedTdobs)
-    np.save('data/TmodelAddC%s.npy' % bp, PrunedTmodel)
-    np.save('data/TdmodelAddC%s.npy' %bp, PrunedTdmodel)
-    np.save('data/PmodelAddC%s.npy' % bp, PrunedPmodel)
-    np.save('data/UmodelAddC%s.npy' %bp, PrunedUmodel)
-    np.save('data/VmodelAddC%s.npy' %bp, PrunedVmodel)
+    np.save('output/VisobsAddC%s.npy' % bp, PrunedVisobs)
+    np.save('output/TobsAddC%s.npy' % bp, PrunedTobs)
+    np.save('output/TdobsAddC%s.npy' % bp, PrunedTdobs)
+    np.save('output/TmodelAddC%s.npy' % bp, PrunedTmodel)
+    np.save('output/TdmodelAddC%s.npy' %bp, PrunedTdmodel)
+    np.save('output/PmodelAddC%s.npy' % bp, PrunedPmodel)
+    np.save('output/UmodelAddC%s.npy' %bp, PrunedUmodel)
+    np.save('output/VmodelAddC%s.npy' %bp, PrunedVmodel)
 
     return PrunedVisobs
 
