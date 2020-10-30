@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 
 #Define the maximum for the ceiling variable
-ceiling_max = 30000
+ceiling_max = float(30000)
 
 #This function shifts the date forward by X minutes
 def time_shifter(t,add_mins):
@@ -31,10 +31,7 @@ def read_time(secs):
 f = open('data/LOWW_metar_2009_to_2020.csv')
 csv_f = csv.reader(f)
 
-headers = ['time', 'location', 'QHN', 'Temperature',
-           'Dewpoint','Visibility', 'WindDirection',
-           'WindSpeed','Gusts','RVR','Weather',
-           'Ceiling']
+#Set up empty lists to repopulate data
 time = []
 location = []
 QHN = []
@@ -48,6 +45,7 @@ RVR = []
 Weather = []
 Ceiling = []
 
+#Repopulate data filling in gaps in a somewhat sensible way
 i = 0
 for row in csv_f:
     if i==0:
@@ -80,15 +78,18 @@ for row in csv_f:
         Gusts.append(row[8])
         RVR.append(row[9])
         Weather.append(row[10])
-        Ceiling.append(row[11])
+        try:
+            CEIL = str(float(row[11]))
+        except:
+            CEIL = str(ceiling_max)
+        Ceiling.append(CEIL)
     else:
+        #Includes interpolation routine for missing data
         t = datetime.strptime(row[0], '%Y-%m-%d %H:%M')
         t_diff = int((t-t_old).total_seconds()/60.0)
-        # We can also implement the interpolation utilising numpy!!
-        #Interpolate relevant data as floats
         t1 = float_time(row[0])
         t0 = float_time(time[-1])
-        num_points = int(t_diff/30)
+        num_points = int(t_diff/30)+1
         t_points = np.linspace(t0,t1,num_points)
         t_known = [t0,t1]
         temp_known = [float(Temperature[-1]),float(row[3])]
@@ -109,25 +110,32 @@ for row in csv_f:
             WindSpeedNew = 0
         winds_known = [float(WindSpeed[-1]),float(row[7])]
         winds_interp = np.interp(t_points,t_known,winds_known)
-        
+        CEIL = str(row[11])
+        try:
+            CEIL2 = float(CEIL)
+        except:
+            CEIL2 = ceiling_max
+        ceiling_known = [float(Ceiling[-1]),float(CEIL2)]
+        ceiling_interp = np.interp(t_points,t_known,ceiling_known)
+            
         #Append interpolated data as strings
-        for i in range(num_points):
-            time.append(str(read_time(t_points[i])))
+        for j in range(1,num_points):
+            time.append(str(read_time(t_points[j])))
             location.append(str(row[1]))
             QHN.append(str(row[2]))
-            Temperature.append(str(temp_interp[i]))
-            Dewpoint.append(str(dew_interp[i]))
-            Visibility.append(str(vis_interp[i]))
-            WindDirection.append(str(windd_interp[i]))
-            WindSpeed.append(str(winds_interp[i]))
+            Temperature.append(str(temp_interp[j]))
+            Dewpoint.append(str(dew_interp[j]))
+            Visibility.append(str(vis_interp[j]))
+            WindDirection.append(str(windd_interp[j]))
+            WindSpeed.append(str(winds_interp[j]))
             Gusts.append(str(row[8]))
             RVR.append(str(row[9]))
             Weather.append(str(row[10]))
-            Ceiling.append(str(row[11])) #Not currently being handled correctly
+            Ceiling.append(str(ceiling_interp[j]))
             
     if i>1:
         t_old = t
-    i+=1
+    i=i+1
     
 
 ##Write CVS file
